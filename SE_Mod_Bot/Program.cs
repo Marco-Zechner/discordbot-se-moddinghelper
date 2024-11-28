@@ -5,7 +5,7 @@ namespace SE_Mod_Bot {
     
     public class Program {
         // Program entry point
-        static async Task Main() {
+        static async Task Main(string[] args) {
             ProgramGlobal.client = new DiscordSocketClient(new DiscordSocketConfig {
                 LogLevel = LogSeverity.Info,
             });
