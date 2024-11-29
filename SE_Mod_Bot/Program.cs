@@ -31,6 +31,7 @@ namespace SE_Mod_Bot {
         private static async Task MainAsync() {
 
             await DataBase.LoadEnv("token.env");
+            await DataBase.LoadEnv("config.env");
 
             // Login and connect.
             await client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("Discord_SE_Bot_Token"));

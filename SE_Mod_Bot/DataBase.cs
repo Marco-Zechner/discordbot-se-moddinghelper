@@ -34,7 +34,7 @@
 
             string filePath = Path.Combine(configDir, fileName);
 
-            if (!File.Exists(filePath)) {
+            if (!Path.Exists(filePath) || !File.Exists(filePath)) {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{DateTime.Now,-19} File '{fileName}' at {filePath} not found.");
                 Console.ResetColor();
