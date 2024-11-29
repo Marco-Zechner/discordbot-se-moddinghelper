@@ -32,12 +32,31 @@ namespace SE_Mod_Bot {
         }
 
         private static async Task HandleRestartCommand(SocketSlashCommand command) {
-            await command.RespondAsync("Restarting bot now, please wait for a moment");
+            await command.DeferAsync();
+            
+            string branch = "main";
+            if (command.Data.Options.Count != 0)
+                branch = (string)command.Data.Options.First().Value;
+
+            if (!await GitHubHandler.CheckBranchExistsAsync("Marco-Zechner", "discordbot-se-moddinghelper", branch)) {
+                await command.ModifyOriginalResponseAsync(msg => {
+                    msg.Content = $"Can't find branch: {branch}. Bot NOT restarting.";
+                });
+            }
+
+            await command.ModifyOriginalResponseAsync(msg => {
+                msg.Content = $"Restarting bot with {branch} now, please wait for a moment";
+            });
+
+            var channel = (IThreadChannel)command.Channel;
+
+            await DataBase.SaveRestartArgs(channel.Id, branch);
+            
             Environment.Exit(1);
         }
 
         private static async Task HandleVersionCommand(SocketSlashCommand command) {
-            await command.RespondAsync("Currently Running Version: " + VersionHandler.GetVersion());
+            await command.RespondAsync("Currently Running Version: " + GitHubHandler.GetVersion());
         }
 
         private static async Task HandleAdoptModCommand(SocketSlashCommand command) {

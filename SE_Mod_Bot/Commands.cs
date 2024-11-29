@@ -32,7 +32,8 @@ namespace SE_Mod_Bot {
                 .WithDescription("Returns the current semantic version of the bot.");
 
             factory.Add("restart")
-                .WithDescription("Exits the Console App, and docker will restart it.");
+                .WithDescription("Exits the Console App, and docker will restart it.")
+                .AddOption("pull-from-branch", ApplicationCommandOptionType.String, "for example: main", isRequired: false);
         }
 
         private class CommandFactory {

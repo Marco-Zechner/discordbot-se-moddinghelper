@@ -53,5 +53,24 @@
                 }
             }
         }
+
+        public static async Task SaveRestartArgs(ulong channelID, string branch) {
+            string fileName = "config.env";
+            string configDir = Environment.GetEnvironmentVariable("CONFIG_DIR") ?? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config");
+
+            string filePath = Path.Combine(configDir, fileName);
+
+            if (!File.Exists(filePath)) {
+                File.WriteAllText(filePath, "");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($"{DateTime.Now,-19} File '{fileName}' created at {filePath}");
+                Console.ResetColor();
+            }
+
+            string content = $"BRANCH={branch}                   # The GitHub branch to pull\n" +
+                $"ARGS=-restarted {channelID}                 # Arguments for the .NET console app";
+
+            await File.WriteAllTextAsync(filePath, content);
+        }
     }
 }
