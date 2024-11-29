@@ -67,10 +67,23 @@
                 Console.ResetColor();
             }
 
-            string content = $"BRANCH={branch}                   # The GitHub branch to pull\n" +
-                $"RESPONSEID={channelID}                 # Arguments for the .NET console app";
+            string[] lines = (await ReadFromConfig(fileName)).Split('\n');
+            List<string> outLines = [];
+            foreach (var line in lines) {
+                if (line.StartsWith("RESPONSEID=")) {
+                    outLines.Add($"RESPONSEID={channelID}                 # Arguments for the .NET console app");
+                    continue;
+                }
 
-            await File.WriteAllTextAsync(filePath, content);
+                if (line.StartsWith("BRANCH=")) {
+                    outLines.Add($"BRANCH={branch}                   # The GitHub branch to pull");
+                    continue;
+                }
+
+                outLines.Add(line);
+            }
+
+            await File.WriteAllTextAsync(filePath, string.Join('\n', outLines));
         }
     }
 }
