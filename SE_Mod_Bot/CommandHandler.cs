@@ -15,14 +15,21 @@ namespace SE_Mod_Bot {
             switch (command.Data.Name) {
                 case "keen-ticket":
                     await HandleKeenTicketCommand(command);
-                break;
+                    break;
                 case "adopt-mod":
                     await HandleAdoptModCommand(command);
-                break;
+                    break;
+                case "version":
+                    await HandleVersionCommand(command);
+                    break;
                 default:
                     await command.RespondAsync($"You executed {command.Data.Name}. No behaviour found.");
                     break;
             }
+        }
+
+        private static async Task HandleVersionCommand(SocketSlashCommand command) {
+            await command.RespondAsync("Currently Running Version: " + VersionHandler.GetVersion());
         }
 
         private static async Task HandleAdoptModCommand(SocketSlashCommand command) {
