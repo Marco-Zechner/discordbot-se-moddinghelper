@@ -30,6 +30,9 @@ namespace SE_Mod_Bot {
 
             factory.Add("version")
                 .WithDescription("Returns the current semantic version of the bot.");
+
+            factory.Add("restart")
+                .WithDescription("Exits the Console App, and docker will restart it.");
         }
 
         private class CommandFactory {

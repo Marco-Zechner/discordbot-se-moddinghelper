@@ -22,10 +22,18 @@ namespace SE_Mod_Bot {
                 case "version":
                     await HandleVersionCommand(command);
                     break;
+                case "restart":
+                    await HandleRestartCommand(command);
+                    break;
                 default:
                     await command.RespondAsync($"You executed {command.Data.Name}. No behaviour found.");
                     break;
             }
+        }
+
+        private static async Task HandleRestartCommand(SocketSlashCommand command) {
+            await command.RespondAsync("Restarting bot now, please wait for a moment");
+            Environment.Exit(1);
         }
 
         private static async Task HandleVersionCommand(SocketSlashCommand command) {
