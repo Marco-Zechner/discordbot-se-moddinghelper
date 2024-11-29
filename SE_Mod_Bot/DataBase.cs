@@ -68,7 +68,7 @@
             }
 
             string content = $"BRANCH={branch}                   # The GitHub branch to pull\n" +
-                $"ARGS=-restarted {channelID}                 # Arguments for the .NET console app";
+                $"RESPONSEID={channelID}                 # Arguments for the .NET console app";
 
             await File.WriteAllTextAsync(filePath, content);
         }

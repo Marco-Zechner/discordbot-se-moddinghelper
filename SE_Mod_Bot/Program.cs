@@ -7,18 +7,14 @@ namespace SE_Mod_Bot {
     
     public class Program {
         private static ulong channelId_restart = 0;
-        private static bool restarted = false;
 
         // Program entry point
         static async Task Main(string[] args) {
             
             Console.WriteLine("Start with args: " + string.Join(", ", args));
 
-            for (int i = 0; i < args.Length; i++) {
-                if (args[i] == "-restarted") {
-                    channelId_restart = ulong.Parse(args[i + 1]);
-                    restarted = true;
-                }
+            if (args.Length != 0) {
+                channelId_restart = ulong.Parse(args[0]);
             }
 
             client = new DiscordSocketClient(new DiscordSocketConfig {
@@ -40,7 +36,7 @@ namespace SE_Mod_Bot {
             await client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable("Discord_SE_Bot_Token"));
             await client.StartAsync();
 
-            if (restarted) {
+            if (channelId_restart != 0) {
                 var channel = await client.GetChannelAsync(channelId_restart);
 
                 await ((ITextChannel)channel).SendMessageAsync("Bot restarted with version: " + GitHubHandler.GetVersion());
